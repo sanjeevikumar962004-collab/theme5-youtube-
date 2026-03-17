@@ -163,12 +163,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 trigger.addEventListener('click', () => this.toggleSearch(true));
             });
 
+            // Add click submission for search icons
+            const documentSearchIcons = document.querySelectorAll('.desktop-search-icon, .modal-search-icon');
+            documentSearchIcons.forEach(icon => {
+                icon.style.cursor = 'pointer';
+                icon.addEventListener('click', () => {
+                    const input = icon.previousElementSibling;
+                    if (input && input.value.trim() !== '') {
+                        window.location.href = '404.html';
+                    }
+                });
+            });
+
             // Handle Search Submission for ALL search inputs
             this.allSearchInputs.forEach(input => {
                 input.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
-                        window.location.href = '404.html';
                     }
                 });
 
@@ -401,10 +412,10 @@ function populateDashboardTable(container) {
 
 function populateBlog(container) {
     const blogData = [
-        { title: "Mastering the Algorithm in 2026", date: "Mar 11, 2026", excerpt: "Explore the new analytics suite we've launched to help creators understand their audience better than ever.", img: "images/pexels-thangaraj-16795484.webp" },
-        { title: "The Rise of Glassmorphism in Web UI", date: "Mar 9, 2026", excerpt: "A deep dive into why glass-like interfaces are dominating the web design world in 2026.", img: "images/pexels-solliefoto-320617.webp" },
-        { title: "Spotlight: Meet Top Creator 'DesignPro'", date: "Mar 2, 2026", excerpt: "An exclusive interview with one of our fastest growing creators on building a massive audience.", img: "images/pexels-shvetsa-12673813.webp" },
-        { title: "The Art of Crafting Perfect Thumbnails", date: "Feb 28, 2026", excerpt: "Increase your CTR by 50% using these 5 proven psychological dark-patterns in thumbnail design.", img: "images/pexels-ron-lach-8368744.webp" }
+        { title: "Mastering the Algorithm in 2026", date: "Mar 11, 2026", excerpt: "Explore the new analytics suite we've launched to help creators understand their audience better than ever.", img: "images/pexels-ron-lach-8368744.webp" },
+        { title: "The Rise of Glassmorphism in Web UI", date: "Mar 9, 2026", excerpt: "A deep dive into why glass-like interfaces are dominating the web design world in 2026.", img: "images/pexels-shvetsa-12673813.webp" },
+        { title: "Spotlight: Meet Top Creator 'DesignPro'", date: "Mar 2, 2026", excerpt: "An exclusive interview with one of our fastest growing creators on building a massive audience.", img: "images/pexels-solliefoto-320617.webp" },
+        { title: "The Art of Crafting Perfect Thumbnails", date: "Feb 28, 2026", excerpt: "Increase your CTR by 50% using these 5 proven psychological dark-patterns in thumbnail design.", img: "images/pexels-thangaraj-16795484.webp" }
     ];
 
     blogData.forEach(post => {
@@ -416,7 +427,7 @@ function populateBlog(container) {
                 <div class="blog-date" style="color: var(--accent-primary); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem;">${post.date}</div>
                 <h3 class="blog-title" style="font-size: 1.25rem; line-height: 1.4; margin-bottom: 0.8rem;">${post.title}</h3>
                 <p class="blog-excerpt" style="color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.2rem;">${post.excerpt}</p>
-                <button class="slice" style="padding: 0.4em 0.8em; --size-letter: 14px;">
+                <button class="slice" style="padding: 0.4em 0.8em; --size-letter: 14px;" onclick="window.location.href='404.html'">
                     <span class="text">Read Article</span>
                 </button>
             </div>
@@ -427,10 +438,10 @@ function populateBlog(container) {
 
 function populateTeam(container) {
     const teamData = [
-        { name: "Alex Mercer", role: "CEO & Founder", img: "images/pexels-shvetsa-12673813.webp" },
-        { name: "Sarah Chen", role: "Head of Design", img: "images/pexels-thangaraj-16795484.webp" },
-        { name: "Marcus Johnson", role: "Lead Engineer", img: "images/pexels-solliefoto-320617.webp" },
-        { name: "Elena Rodriguez", role: "Community Manager", img: "images/pexels-ron-lach-8368744.webp" },
+        { name: "Alex Mercer", role: "CEO & Founder", img: "images/pexels-a-darmel-9040607.webp" },
+        { name: "Sarah Chen", role: "Head of Design", img: "images/pexels-benjamin-dominguez-3363409-28332700.webp" },
+        { name: "Marcus Johnson", role: "Lead Engineer", img: "images/pexels-benjamin-dominguez-3363409-28336275.webp" },
+        { name: "Elena Rodriguez", role: "Community Manager", img: "images/pexels-fotios-photos-1266302.webp" },
     ];
 
     teamData.forEach(member => {
@@ -712,14 +723,14 @@ window.initFAQ = function () {
             // Close others
             document.querySelectorAll('.faq-answer').forEach(ans => {
                 if (ans !== answer) {
-                    ans.style.maxHeight = null;
+                    ans.style.maxHeight = '0px';
                     ans.previousElementSibling.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
                 }
             });
 
             // Toggle current
-            if (answer.style.maxHeight) {
-                answer.style.maxHeight = null;
+            if (answer.style.maxHeight && answer.style.maxHeight !== '0px' && answer.style.maxHeight !== '0') {
+                answer.style.maxHeight = '0px';
                 icon.style.transform = 'rotate(0deg)';
             } else {
                 answer.style.maxHeight = answer.scrollHeight + "px";

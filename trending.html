@@ -479,13 +479,13 @@
                 </div>
             </label>
 
-            <button class="icon-btn" aria-label="Notifications">
+            <button class="icon-btn" aria-label="Notifications" onclick="window.location.href='404.html'">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
                     <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
                 </svg>
             </button>
-            <div class="profile-pic" aria-label="User Profile"><img src="images/c3.webp" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+            <div class="profile-pic" aria-label="User Profile" style="cursor: pointer;" onclick="window.location.href='404.html'"><img src="images/c3.webp" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
         </div>
     </nav>
 
@@ -571,7 +571,7 @@
             <div class="trending-container">
                 <!-- FEATURED HERO -->
                 <a href="404.html" class="hero-trending gs-reveal block relative overflow-hidden group" style="text-decoration: none; color: inherit;">
-                    <img src="images/pexels-benjamin-dominguez-3363409-28336275.webp" alt="Featured Trending" class="hero-banner">
+                    <img src="images/pexels-a-darmel-9040607.webp" alt="Featured Trending" class="hero-banner">
                     <div class="hero-overlay-gradient"></div>
                     <div class="video-play-overlay">
                         <div class="play-btn-circle">
@@ -607,7 +607,7 @@
                             <a href="404.html" style="display: block; text-decoration: none; color: inherit;">
                                 <div class="podium-card">
                                     <div class="thumbnail-overlay-container" style="position: relative; border-radius: inherit; overflow: hidden;">
-                                        <img src="images/pexels-shvetsa-12673813.webp" class="podium-thumb">
+                                        <img src="images/pexels-benjamin-dominguez-3363409-28332700.webp" class="podium-thumb">
                                         <div class="video-play-overlay">
                                             <div class="play-btn-circle">
                                                 <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -625,7 +625,7 @@
                             <a href="404.html" style="display: block; text-decoration: none; color: inherit;">
                                 <div class="podium-card">
                                     <div class="thumbnail-overlay-container" style="position: relative; border-radius: inherit; overflow: hidden;">
-                                        <img src="images/pexels-benjamin-dominguez-3363409-28332700.webp" class="podium-thumb">
+                                        <img src="images/pexels-benjamin-dominguez-3363409-28336275.webp" class="podium-thumb">
                                         <div class="video-play-overlay">
                                             <div class="play-btn-circle">
                                                 <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -643,7 +643,7 @@
                             <a href="404.html" style="display: block; text-decoration: none; color: inherit;">
                                 <div class="podium-card">
                                     <div class="thumbnail-overlay-container" style="position: relative; border-radius: inherit; overflow: hidden;">
-                                        <img src="images/pexels-a-darmel-9040607.webp" class="podium-thumb">
+                                        <img src="images/pexels-fotios-photos-1266302.webp" class="podium-thumb">
                                         <div class="video-play-overlay">
                                             <div class="play-btn-circle">
                                                 <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -686,31 +686,31 @@
     <script>
         // Initialize Reels Data (Using local videos)
         const reelData = [
-            { id: 1, rank: 1, title: "Urban Exploration NYC 🏙️", views: "1.2M", video: "reels/13606688_1080_1920_30fps (1).mp4", thumb: "images/pexels-thangaraj-16795484.webp" },
-            { id: 2, rank: 2, title: "Slow Motion Nature 🌿", views: "850K", video: "reels/4738047-uhd_2160_4096_25fps (1).mp4", thumb: "images/pexels-solliefoto-320617.webp" },
-            { id: 3, rank: 3, title: "Cyberpunk Tokyo 🌌", views: "2.4M", video: "reels/8296234-hd_1080_1920_25fps (1) (1).mp4", thumb: "images/pexels-shvetsa-12673813.webp" },
-            { id: 4, rank: 4, title: "Gaming Moments 🕹️", views: "450K", video: "reels/WhatsApp Video 2026-03-10 at 11 (2).mp4", thumb: "images/pexels-ron-lach-8368744.webp" },
-            { id: 5, rank: 5, title: "Vibe Check ✨", views: "10M", video: "reels/WhatsApp Video 2026-03-10 at 11.mp4", thumb: "images/pexels-benjamin-dominguez-3363409-28336275.webp" },
-            { id: 6, rank: 6, title: "Morning Routine 🎨", views: "620K", video: "reels/13606688_1080_1920_30fps (1).mp4", thumb: "images/pexels-mizunokozuki-13929968.webp" },
-            { id: 7, rank: 7, title: "Sunset Drive 🌅", views: "1.8M", video: "reels/4738047-uhd_2160_4096_25fps (1).mp4", thumb: "images/pexels-kamaji-ogino-5065197.webp" },
-            { id: 8, rank: 8, title: "Coding Life 💻", views: "920K", video: "reels/8296234-hd_1080_1920_25fps (1) (1).mp4", thumb: "images/pexels-fotios-photos-1266302.webp" },
-            { id: 9, rank: 9, title: "Foodie Paradise 🍕", views: "3.1M", video: "reels/WhatsApp Video 2026-03-10 at 11.mp4", thumb: "images/pexels-solliefoto-320617.webp" },
-            { id: 10, rank: 10, title: "Epic Views 🏔️", views: "5.5M", video: "reels/WhatsApp Video 2026-03-10 at 11 (2).mp4", thumb: "images/pexels-ivan-s-8117815.webp" },
-            { id: 11, rank: 11, title: "Fitness Motivation 💪", views: "1.1M", video: "reels/13606688_1080_1920_30fps (1).mp4", thumb: "images/pexels-gustavo-fring-8770481.webp" },
-            { id: 12, rank: 12, title: "Travel Diary ✈️", views: "750K", video: "reels/4738047-uhd_2160_4096_25fps (1).mp4", thumb: "images/pexels-shvetsa-12673813.webp" }
+            { id: 1, rank: 1, title: "Urban Exploration NYC 🏙️", views: "1.2M", video: "reels/13606688_1080_1920_30fps (1).mp4", thumb: "images/pexels-gustavo-fring-8770481.webp" },
+            { id: 2, rank: 2, title: "Slow Motion Nature 🌿", views: "850K", video: "reels/4738047-uhd_2160_4096_25fps (1).mp4", thumb: "images/pexels-ivan-s-8117815.webp" },
+            { id: 3, rank: 3, title: "Cyberpunk Tokyo 🌌", views: "2.4M", video: "reels/8296234-hd_1080_1920_25fps (1) (1).mp4", thumb: "images/pexels-kamaji-ogino-5065197.webp" },
+            { id: 4, rank: 4, title: "Gaming Moments 🕹️", views: "450K", video: "reels/WhatsApp Video 2026-03-10 at 11 (2).mp4", thumb: "images/pexels-mizunokozuki-13929968.webp" },
+            { id: 5, rank: 5, title: "Vibe Check ✨", views: "10M", video: "reels/WhatsApp Video 2026-03-10 at 11.mp4", thumb: "images/pexels-ron-lach-8368744.webp" },
+            { id: 6, rank: 6, title: "Morning Routine 🎨", views: "620K", video: "reels/13606688_1080_1920_30fps (1).mp4", thumb: "images/pexels-shvetsa-12673813.webp" },
+            { id: 7, rank: 7, title: "Sunset Drive 🌅", views: "1.8M", video: "reels/4738047-uhd_2160_4096_25fps (1).mp4", thumb: "images/pexels-solliefoto-320617.webp" },
+            { id: 8, rank: 8, title: "Coding Life 💻", views: "920K", video: "reels/8296234-hd_1080_1920_25fps (1) (1).mp4", thumb: "images/pexels-thangaraj-16795484.webp" },
+            { id: 9, rank: 9, title: "Foodie Paradise 🍕", views: "3.1M", video: "reels/WhatsApp Video 2026-03-10 at 11.mp4", thumb: "images/pexels-a-darmel-9040607.webp" },
+            { id: 10, rank: 10, title: "Epic Views 🏔️", views: "5.5M", video: "reels/WhatsApp Video 2026-03-10 at 11 (2).mp4", thumb: "images/pexels-benjamin-dominguez-3363409-28332700.webp" },
+            { id: 11, rank: 11, title: "Fitness Motivation 💪", views: "1.1M", video: "reels/13606688_1080_1920_30fps (1).mp4", thumb: "images/pexels-benjamin-dominguez-3363409-28336275.webp" },
+            { id: 12, rank: 12, title: "Travel Diary ✈️", views: "750K", video: "reels/4738047-uhd_2160_4096_25fps (1).mp4", thumb: "images/pexels-fotios-photos-1266302.webp" }
         ];
 
         // Rising Stars Data
         const risingStars = [
-            { rank: 4, title: "The Art of Storytelling in 2026 📖", thumb: "images/pexels-a-darmel-9040607.webp", views: "410K", time: "5 hours ago" },
-            { rank: 5, title: "Sustainable Living: My Zero Waste Journey 🌿", thumb: "images/pexels-benjamin-dominguez-3363409-28336275.webp", views: "280K", time: "1 day ago" },
-            { rank: 6, title: "Exploring the Deep: Oceanic Discoveries 🌊", thumb: "images/pexels-fotios-photos-1266302.webp", views: "1.2M", time: "3 days ago" },
-            { rank: 7, title: "Mastering TypeScript in 10 Minutes 💻", thumb: "images/pexels-ron-lach-8368744.webp", views: "150K", time: "2 hours ago" },
-            { rank: 8, title: "The Best Street Food in Tokyo 🍜", thumb: "images/pexels-ivan-s-8117815.webp", views: "900K", time: "1 week ago" },
+            { rank: 4, title: "The Art of Storytelling in 2026 📖", thumb: "images/pexels-gustavo-fring-8770481.webp", views: "410K", time: "5 hours ago" },
+            { rank: 5, title: "Sustainable Living: My Zero Waste Journey 🌿", thumb: "images/pexels-ivan-s-8117815.webp", views: "280K", time: "1 day ago" },
+            { rank: 6, title: "Exploring the Deep: Oceanic Discoveries 🌊", thumb: "images/pexels-kamaji-ogino-5065197.webp", views: "1.2M", time: "3 days ago" },
+            { rank: 7, title: "Mastering TypeScript in 10 Minutes 💻", thumb: "images/pexels-mizunokozuki-13929968.webp", views: "150K", time: "2 hours ago" },
+            { rank: 8, title: "The Best Street Food in Tokyo 🍜", thumb: "images/pexels-ron-lach-8368744.webp", views: "900K", time: "1 week ago" },
             { rank: 9, title: "Creating 3D Masterpieces with AI 🎨", thumb: "images/pexels-shvetsa-12673813.webp", views: "340K", time: "4 hours ago" },
-            { rank: 10, title: "Hidden Architecture Gems 🏗️", thumb: "images/pexels-ron-lach-8368744.webp", views: "670K", time: "12 hours ago" },
-            { rank: 11, title: "The Future of Quantum Computing ⚛️", thumb: "images/pexels-a-darmel-9040607.webp", views: "2.1M", time: "2 days ago" },
-            { rank: 12, title: "Van Life: Crossing the Alps 🚐", thumb: "images/pexels-benjamin-dominguez-3363409-28336275.webp", views: "890K", time: "3 hours ago" }
+            { rank: 10, title: "Hidden Architecture Gems 🏗️", thumb: "images/pexels-solliefoto-320617.webp", views: "670K", time: "12 hours ago" },
+            { rank: 11, title: "The Future of Quantum Computing ⚛️", thumb: "images/pexels-thangaraj-16795484.webp", views: "2.1M", time: "2 days ago" },
+            { rank: 12, title: "Van Life: Crossing the Alps 🚐", thumb: "images/pexels-a-darmel-9040607.webp", views: "890K", time: "3 hours ago" }
         ];
 
         function renderFeed() {
@@ -823,7 +823,7 @@
                 <h3>Stay up to date with what's trending 🔥</h3>
                 <p>Get weekly drops of the hottest videos, creators & exclusive content.</p>
             </div>
-            <form class="newsletter-form" novalidate>
+            <form class="newsletter-form">
                 <input type="email" placeholder="Enter your email address" required>
                 <button type="submit" class="newsletter-btn">Subscribe</button>
             </form>
