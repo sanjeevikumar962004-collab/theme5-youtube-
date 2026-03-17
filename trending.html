@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stackly - Trending Content</title>
+    <meta name="description" content="Watch the hottest trending reels on Stackly. Discover viral, short-form video content from creators worldwide.">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ── Trending Page Rebuild ────────────────────────── */
+        .trending-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Cinematic Hero */
+        .hero-trending {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            border-radius: 30px;
+            overflow: hidden;
+            margin-bottom: 4rem;
+            display: flex;
+            align-items: flex-end;
+            padding: 3rem;
+            background: #000;
+        }
+
+        .hero-banner {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            filter: saturate(1.2) contrast(1.1);
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-trending:hover .hero-banner {
+            transform: scale(1.05);
+        }
+
+        .hero-overlay-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 60%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: var(--accent-primary);
+            color: #fff;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 20px rgba(255, 26, 26, 0.3);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.2rem;
+            color: #fff;
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            color: rgba(255,255,255,0.8);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Viral Reels Section */
+        .page-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .section-title-mod {
+            font-size: 1.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title-mod i {
+            color: var(--accent-primary);
+        }
+
+        .reels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .reel-card {
+            position: relative;
+            aspect-ratio: 9/16;
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .reel-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .reel-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .reel-card:hover .reel-thumb {
+            transform: scale(1.1);
+        }
+
+        .reel-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 40%, rgba(0,0,0,0.3) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.5rem;
+            opacity: 1;
+        }
+
+        .reel-rank {
+            align-self: flex-start;
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.7);
+            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+        }
+
+        .reel-info {
+            color: #fff;
+        }
+
+        .reel-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .reel-stats {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Trending Feed Grid (#4-#9) */
+        .trending-feed-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .trending-feed-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .trending-feed-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-primary);
+            background: rgba(255,255,255,0.06);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .feed-thumb-wrap {
+            position: relative;
+            aspect-ratio: 16/9;
+        }
+
+        .feed-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .feed-rank-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--accent-primary);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 10px rgba(255,26,26,0.3);
+        }
+
+        .feed-info {
+            padding: 1.25rem;
+        }
+
+        .feed-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .feed-meta {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 992px) {
+            .podium-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+                padding-top: 2rem;
+            }
+            .podium-item.second { order: 2; }
+            .podium-item.first { order: 1; }
+            .podium-item.third { order: 3; }
+        }
+
+        @media (max-width: 640px) {
+            .trending-feed-grid {
+                grid-template-columns: 1fr;
+            }
+            .reels-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
+
+        .reel-thumb-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+        }
+
+        /* Podium Ranking (1, 2, 3) */
+        .ranking-bar {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .podium-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr;
+            gap: 2rem;
+            align-items: flex-end;
+        }
+
+        .podium-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .podium-card {
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 1.5rem;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .podium-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            background: rgba(255,255,255,0.08);
+            border-color: var(--accent-primary);
+            box-shadow: 0 20px 40px rgba(255,26,26,0.2);
+        }
+
+        .podium-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.1) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .podium-card:hover::after {
+            opacity: 1;
+        }
+
+        .podium-item.first .podium-card {
+            border-color: gold;
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,0,0,0.1));
+            padding: 2.5rem 2rem;
+        }
+
+        .rank-num {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 5rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.05);
+            z-index: 0;
+        }
+
+        .podium-item.first .rank-num { color: rgba(255,215,0,0.1); }
+
+        .podium-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            z-index: 1;
+            position: relative;
+        }
+
+        .podium-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .podium-grid { grid-template-columns: 1fr; gap: 4rem; }
+            .hero-title { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-trending { height: 350px; padding: 1.5rem; }
+            .hero-title { font-size: 1.8rem; }
+            .reels-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .reels-grid { grid-template-columns: 1fr; }
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader">
+            <div class="ph1">
+                <div class="record"></div>
+                <div class="record-text">STACKLY</div>
+            </div>
+            <div class="ph2">
+                <div class="laptop-b"></div>
+                <svg class="laptop-t" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 30">
+                    <path d="M21 1H5C2.78 1 1 2.78 1 5V25a4 4 90 004 4H37a4 4 90 004-4V5c0-2.22-1.8-4-4-4H21"
+                        pathLength="100" stroke-width="2" stroke="currentColor" fill="none"></path>
+                </svg>
+            </div>
+            <div class="icon"></div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar glass">
+        <div class="nav-left">
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">☰</button>
+            <a href="index.html" class="logo">
+                <img src="images/stackly logo RED.webp" alt="Stackly" class="logo-img">
+            </a>
+        </div>
+
+        <div class="nav-search-wrapper">
+            <!-- Desktop Persistent Search -->
+            <div class="desktop-search-bar">
+                <input class="desktop-search-input" type="text" placeholder="Search Stackly...">
+                <svg viewBox="0 0 24 24" class="desktop-search-icon">
+                    <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+                </svg>
+            </div>
+
+            <!-- Mobile Trigger -->
+            <button class="search-trigger" aria-label="Open Search">
+                <svg viewBox="0 0 24 24" class="search__icon">
+                    <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+                </svg>
+            </button>
+            
+            <!-- Modern Search Overlay (Mobile Only) -->
+            <div id="search-overlay" class="search-overlay">
+                <div class="search-modal">
+                    <div class="search-box">
+                        <input class="search-input" type="text" placeholder="Search Stackly...">
+                        <svg viewBox="0 0 24 24" class="modal-search-icon">
+                            <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+                        </svg>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <!-- Theme Toggle -->
+            <label class="switch">
+                <input id="theme-toggle" type="checkbox" />
+                <div class="slider round">
+                    <div class="sun-moon">
+                        <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                    </div>
+                    <div class="stars">
+                        <svg id="star-1" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+                        <svg id="star-2" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+                        <svg id="star-3" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+                        <svg id="star-4" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+                    </div>
+                </div>
+            </label>
+
+            <button class="icon-btn" aria-label="Notifications">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                    <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+                </svg>
+            </button>
+            <div class="profile-pic" aria-label="User Profile"><img src="images/c3.webp" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+        </div>
+    </nav>
+
+    <!-- Main Container Layout -->
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar glass" id="sidebar">
+            <ul class="nav-links">
+                <li class="nav-dropdown">
+                    <a href="#" class="dropdown-toggle" id="home-dropdown-toggle">
+                        <i><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                <polyline points="9 22 9 12 15 12 15 22" />
+                            </svg></i>
+                        <span>Home</span>
+                        <svg class="dropdown-caret" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: auto; transition: transform 0.3s;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </a>
+                    <ul class="dropdown-menu" id="home-dropdown-menu">
+                        <li><a href="index.html">Home 1</a></li>
+                        <li><a href="index2.html">Home 2</a></li>
+                    </ul>
+                </li>
+                <li class="active"><a href="trending.html">
+                        <i><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+                            </svg></i>
+                        <span>Trending</span></a>
+                </li>
+            </ul>
+            <hr>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">
+                        <i><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="18" height="18" x="3" y="3" rx="2" />
+                                <path d="M3 9h18" />
+                                <path d="M9 21V9" />
+                            </svg></i>
+                        <span>Dashboard</span></a>
+                </li>
+                <li><a href="blog.html">
+                        <i><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                            </svg></i>
+                        <span>Blog</span></a>
+                </li>
+                <li><a href="services.html">
+                        <i><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m6 9 6-6 6 6-6 12-6-12Z" />
+                                <path d="M6 9h12" />
+                                <path d="M12 3v18" />
+                            </svg></i>
+                        <span>Premium</span></a>
+                </li>
+                <li><a href="about.html">
+                        <i><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M12 16v-4" />
+                                <path d="M12 8h.01" />
+                            </svg></i>
+                        <span>About Us</span></a>
+                </li>
+                <li><a href="contact.html">
+                        <i><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="20" height="16" x="2" y="4" rx="2" />
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                            </svg></i>
+                        <span>Contact</span></a>
+                </li>
+            </ul>
+            <hr>
+            <ul class="nav-links">
+                <li><a href="login.html">
+                        <i><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></i>
+                        <span>Login</span></a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content" id="main-content" style="padding: 0;">
+            <div class="trending-container">
+                <!-- FEATURED HERO -->
+                <a href="404.html" class="hero-trending gs-reveal block relative overflow-hidden group" style="text-decoration: none; color: inherit;">
+                    <img src="images/pexels-benjamin-dominguez-3363409-28336275.webp" alt="Featured Trending" class="hero-banner">
+                    <div class="hero-overlay-gradient"></div>
+                    <div class="video-play-overlay">
+                        <div class="play-btn-circle">
+                            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </div>
+                    <div class="hero-content">
+                        <div class="hero-badge">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            Global Feature
+                        </div>
+                        <h1 class="hero-title">Neon City Night Drive: The Ultimate Cinematic Journey 🌃</h1>
+                        <div class="hero-meta">
+                            <span>CityLens Creators</span>
+                            <span>•</span>
+                            <span>4.2M Views</span>
+                            <span>•</span>
+                            <span>2 hours ago</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- TOP PODIUM RANKING -->
+                <div class="page-section-header gs-reveal">
+                    <h2 class="section-title-mod"><i>#</i> Top Ranked Videos</h2>
+                </div>
+
+                <div class="ranking-bar gs-reveal">
+                    <div class="podium-grid">
+                        <!-- #2 -->
+                        <div class="podium-item second">
+                            <span class="rank-num">#2</span>
+                            <a href="404.html" style="display: block; text-decoration: none; color: inherit;">
+                                <div class="podium-card">
+                                    <div class="thumbnail-overlay-container" style="position: relative; border-radius: inherit; overflow: hidden;">
+                                        <img src="images/pexels-shvetsa-12673813.webp" class="podium-thumb">
+                                        <div class="video-play-overlay">
+                                            <div class="play-btn-circle">
+                                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 class="podium-title">Mastering the Algorithm</h3>
+                                    <p class="trending-stats">850K Views • 1 week ago</p>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- #1 -->
+                        <div class="podium-item first">
+                            <span class="rank-num">#1</span>
+                            <a href="404.html" style="display: block; text-decoration: none; color: inherit;">
+                                <div class="podium-card">
+                                    <div class="thumbnail-overlay-container" style="position: relative; border-radius: inherit; overflow: hidden;">
+                                        <img src="images/pexels-benjamin-dominguez-3363409-28332700.webp" class="podium-thumb">
+                                        <div class="video-play-overlay">
+                                            <div class="play-btn-circle">
+                                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 class="podium-title">The Future of Web UX/UI</h3>
+                                    <p class="trending-stats">2.4M Views • 3 days ago</p>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- #3 -->
+                        <div class="podium-item third">
+                            <span class="rank-num">#3</span>
+                            <a href="404.html" style="display: block; text-decoration: none; color: inherit;">
+                                <div class="podium-card">
+                                    <div class="thumbnail-overlay-container" style="position: relative; border-radius: inherit; overflow: hidden;">
+                                        <img src="images/pexels-a-darmel-9040607.webp" class="podium-thumb">
+                                        <div class="video-play-overlay">
+                                            <div class="play-btn-circle">
+                                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 class="podium-title">Building 3D Cities</h3>
+                                    <p class="trending-stats">620K Views • 2 days ago</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RISING STARS GRID (#4-#9) -->
+                <div class="page-section-header gs-reveal">
+                    <h2 class="section-title-mod"><i>#</i> Rising Stars</h2>
+                </div>
+                <div class="trending-feed-grid" id="trending-feed">
+                    <!-- Loaded via JS -->
+                </div>
+
+                <!-- VIRAL REELS GRID -->
+                <div class="page-section-header gs-reveal">
+                    <h2 class="section-title-mod">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-primary);"><path d="M2 12V2h10l10 10-10 10H2v-10z"/><path d="M5 5h2v2H5V5z"/></svg>
+                        Viral Reels
+                    </h2>
+                </div>
+
+                <div class="reels-grid" id="reels-grid">
+                    <!-- Loaded via JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // Initialize Reels Data (Using local videos)
+        const reelData = [
+            { id: 1, rank: 1, title: "Urban Exploration NYC 🏙️", views: "1.2M", video: "reels/13606688_1080_1920_30fps (1).mp4", thumb: "images/pexels-thangaraj-16795484.webp" },
+            { id: 2, rank: 2, title: "Slow Motion Nature 🌿", views: "850K", video: "reels/4738047-uhd_2160_4096_25fps (1).mp4", thumb: "images/pexels-solliefoto-320617.webp" },
+            { id: 3, rank: 3, title: "Cyberpunk Tokyo 🌌", views: "2.4M", video: "reels/8296234-hd_1080_1920_25fps (1) (1).mp4", thumb: "images/pexels-shvetsa-12673813.webp" },
+            { id: 4, rank: 4, title: "Gaming Moments 🕹️", views: "450K", video: "reels/WhatsApp Video 2026-03-10 at 11 (2).mp4", thumb: "images/pexels-ron-lach-8368744.webp" },
+            { id: 5, rank: 5, title: "Vibe Check ✨", views: "10M", video: "reels/WhatsApp Video 2026-03-10 at 11.mp4", thumb: "images/pexels-benjamin-dominguez-3363409-28336275.webp" },
+            { id: 6, rank: 6, title: "Morning Routine 🎨", views: "620K", video: "reels/13606688_1080_1920_30fps (1).mp4", thumb: "images/pexels-mizunokozuki-13929968.webp" },
+            { id: 7, rank: 7, title: "Sunset Drive 🌅", views: "1.8M", video: "reels/4738047-uhd_2160_4096_25fps (1).mp4", thumb: "images/pexels-kamaji-ogino-5065197.webp" },
+            { id: 8, rank: 8, title: "Coding Life 💻", views: "920K", video: "reels/8296234-hd_1080_1920_25fps (1) (1).mp4", thumb: "images/pexels-fotios-photos-1266302.webp" },
+            { id: 9, rank: 9, title: "Foodie Paradise 🍕", views: "3.1M", video: "reels/WhatsApp Video 2026-03-10 at 11.mp4", thumb: "images/pexels-solliefoto-320617.webp" },
+            { id: 10, rank: 10, title: "Epic Views 🏔️", views: "5.5M", video: "reels/WhatsApp Video 2026-03-10 at 11 (2).mp4", thumb: "images/pexels-ivan-s-8117815.webp" },
+            { id: 11, rank: 11, title: "Fitness Motivation 💪", views: "1.1M", video: "reels/13606688_1080_1920_30fps (1).mp4", thumb: "images/pexels-gustavo-fring-8770481.webp" },
+            { id: 12, rank: 12, title: "Travel Diary ✈️", views: "750K", video: "reels/4738047-uhd_2160_4096_25fps (1).mp4", thumb: "images/pexels-shvetsa-12673813.webp" }
+        ];
+
+        // Rising Stars Data
+        const risingStars = [
+            { rank: 4, title: "The Art of Storytelling in 2026 📖", thumb: "images/pexels-a-darmel-9040607.webp", views: "410K", time: "5 hours ago" },
+            { rank: 5, title: "Sustainable Living: My Zero Waste Journey 🌿", thumb: "images/pexels-benjamin-dominguez-3363409-28336275.webp", views: "280K", time: "1 day ago" },
+            { rank: 6, title: "Exploring the Deep: Oceanic Discoveries 🌊", thumb: "images/pexels-fotios-photos-1266302.webp", views: "1.2M", time: "3 days ago" },
+            { rank: 7, title: "Mastering TypeScript in 10 Minutes 💻", thumb: "images/pexels-ron-lach-8368744.webp", views: "150K", time: "2 hours ago" },
+            { rank: 8, title: "The Best Street Food in Tokyo 🍜", thumb: "images/pexels-ivan-s-8117815.webp", views: "900K", time: "1 week ago" },
+            { rank: 9, title: "Creating 3D Masterpieces with AI 🎨", thumb: "images/pexels-shvetsa-12673813.webp", views: "340K", time: "4 hours ago" },
+            { rank: 10, title: "Hidden Architecture Gems 🏗️", thumb: "images/pexels-ron-lach-8368744.webp", views: "670K", time: "12 hours ago" },
+            { rank: 11, title: "The Future of Quantum Computing ⚛️", thumb: "images/pexels-a-darmel-9040607.webp", views: "2.1M", time: "2 days ago" },
+            { rank: 12, title: "Van Life: Crossing the Alps 🚐", thumb: "images/pexels-benjamin-dominguez-3363409-28336275.webp", views: "890K", time: "3 hours ago" }
+        ];
+
+        function renderFeed() {
+            const feed = document.getElementById('trending-feed');
+            if(!feed) return;
+
+            feed.innerHTML = risingStars.map(video => `
+                <a href="404.html" class="trending-feed-card gs-reveal" style="display: block; text-decoration: none; color: inherit;">
+                    <div class="feed-thumb-wrap">
+                        <img src="${video.thumb}" class="feed-thumb" alt="${video.title}">
+                        <div class="feed-rank-badge">#${video.rank}</div>
+                        <div class="video-play-overlay">
+                            <div class="play-btn-circle">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feed-info">
+                        <h3 class="feed-title">${video.title}</h3>
+                        <div class="feed-meta">${video.views} Views • ${video.time}</div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        renderFeed();
+
+        function renderReels() {
+            const grid = document.getElementById('reels-grid');
+            if(!grid) return;
+
+            grid.innerHTML = reelData.map((reel, index) => `
+                <a href="404.html" class="reel-card gs-reveal" style="display: block; text-decoration: none; color: inherit; transition-delay: ${index * 0.1}s">
+                    <video class="reel-thumb-video" loop muted playsinline poster="${reel.thumb}" onmouseover="this.play()" onmouseout="this.pause()">
+                        <source src="${reel.video}" type="video/mp4">
+                    </video>
+                    <div class="video-play-overlay">
+                            <div class="play-btn-circle">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    <div class="reel-overlay">
+                        <div class="reel-rank">#${reel.rank}</div>
+                        <div class="reel-info">
+                            <h3 class="reel-title">${reel.title}</h3>
+                            <div class="reel-stats">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                                ${reel.views}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        renderReels();
+
+        /* ── Sidebar sync ───────────────────────────────── */
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        if (sidebar && mainContent) {
+            const sideObs = new MutationObserver(() => {
+                mainContent.style.marginLeft = sidebar.classList.contains('collapsed')
+                    ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)';
+            });
+            sideObs.observe(sidebar, { attributes: true, attributeFilter: ['class'] });
+        }
+
+        /* ── GSAP Entrance ──────────────────────────────── */
+        if (window.gsap) {
+            gsap.from('.hero-trending', { y: -30, opacity: 0, duration: 1, ease: 'power3.out' });
+            gsap.from('.podium-item', { 
+                y: 50, 
+                opacity: 0, 
+                duration: 0.8, 
+                stagger: 0.2, 
+                ease: 'back.out(1.7)',
+                delay: 0.5
+            });
+            gsap.from('.reel-card', { 
+                scale: 0.8,
+                opacity: 0, 
+                duration: 0.6, 
+                stagger: 0.1, 
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: '.reels-grid',
+                    start: 'top 80%'
+                }
+            });
+        }
+
+        /* ── Interactive Mouse Glow for Podium (using CSS variables) ── */
+        document.querySelectorAll('.podium-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                card.style.setProperty('--x', `${x}%`);
+                card.style.setProperty('--y', `${y}%`);
+            });
+        });
+    </script>
+
+    <!-- Modern Footer -->
+    <footer class="site-footer" id="site-footer">
+        <!-- Newsletter Strip -->
+        <div class="footer-newsletter">
+            <div class="newsletter-text">
+                <h3>Stay up to date with what's trending 🔥</h3>
+                <p>Get weekly drops of the hottest videos, creators & exclusive content.</p>
+            </div>
+            <form class="newsletter-form" novalidate>
+                <input type="email" placeholder="Enter your email address" required>
+                <button type="submit" class="newsletter-btn">Subscribe</button>
+            </form>
+        </div>
+
+        <!-- Main Footer Grid -->
+        <div class="footer-grid">
+            <!-- Brand -->
+            <div class="footer-brand footer-col">
+                <a href="index.html" class="footer-logo">
+                    <img src="images/stackly logo RED.webp" alt="Stackly" class="logo-img">
+                </a>
+                <p>The next-generation video platform where trending content meets premium experience. Discover, watch, and share what's hot right now.</p>
+                <div class="footer-socials">
+                    <a href="#" class="social-icon" aria-label="YouTube">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="Instagram">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="Twitter">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="TikTok">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="Discord">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.74 19.74 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.04.04.052a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.078.078 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Platform Links -->
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="404.html">Home</a></li>
+                    <li><a href="404.html">Trending</a></li>
+                    <li><a href="404.html">Dashboard</a></li>
+                    <li><a href="404.html">Blog</a></li>
+                    <li><a href="404.html">Premium</a></li>
+                </ul>
+            </div>
+
+            <!-- Company -->
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="404.html">About Us</a></li>
+                    <li><a href="404.html">Contact</a></li>
+                    <li><a href="404.html">Careers</a></li>
+                    <li><a href="404.html">Press Kit</a></li>
+                    <li><a href="404.html">Partners</a></li>
+                </ul>
+            </div>
+
+            <!-- Legal -->
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="404.html">Privacy Policy</a></li>
+                    <li><a href="404.html">Terms of Service</a></li>
+                    <li><a href="404.html">Cookie Policy</a></li>
+                    <li><a href="404.html">DMCA</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom">
+            <p>&copy; 2026 <span>Stackly</span>. All rights reserved. Made with ❤️</p>
+            <div class="footer-badges">
+                <span class="footer-badge">✦ HD Streaming</span>
+                <span class="footer-badge">✦ 5M+ Creators</span>
+                <span class="footer-badge">✦ 120 Countries</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

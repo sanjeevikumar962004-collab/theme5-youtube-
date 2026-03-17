@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Stackly</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .error-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: #08080a;
+            color: #fff;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .error-code {
+            font-size: clamp(6rem, 20vw, 12rem);
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(135deg, var(--accent-primary), #ff4d4d, #960000);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 30px rgba(255, 26, 26, 0.3));
+        }
+        .error-msg {
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 600px;
+        }
+        .back-btn {
+            background: var(--accent-primary);
+            color: #fff;
+            padding: 14px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 25px rgba(255, 26, 26, 0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .back-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 26, 26, 0.5);
+            background: #ff2626;
+        }
+        /* Cosmic particles background effect */
+        .stars-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.5;
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars-bg"></div>
+    <div class="error-container">
+        <h1 class="error-code">404</h1>
+        <p class="error-msg">The content you're looking for has been lost in the stream. It might have been deleted or moved to another dimension.</p>
+        <a href="index.html" class="back-btn">Go Back Home</a>
+    </div>
+</body>
+</html>

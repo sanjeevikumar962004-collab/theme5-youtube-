@@ -1,0 +1,193 @@
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-main);
+    background-image: radial-gradient(circle at top right, rgba(255, 26, 26, 0.15), transparent 40%),
+                      radial-gradient(circle at bottom left, rgba(255, 26, 26, 0.1), transparent 40%);
+    padding: 2rem;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-primary);
+}
+
+/* Light Theme Auth Overrides */
+[data-theme="light"] .auth-page {
+    background: #f7f7f9;
+}
+
+[data-theme="light"] .auth-card {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+[data-theme="light"] .auth-header h1 {
+    color: #1a1a2e;
+}
+
+[data-theme="light"] .auth-header p,
+[data-theme="light"] .auth-footer,
+[data-theme="light"] .back-to-home {
+    color: #555;
+}
+
+[data-theme="light"] .form-control {
+    background: #f1f1f1;
+    color: #1a1a2e;
+    border-color: rgba(0,0,0,0.1);
+}
+
+[data-theme="light"] .form-label {
+    color: #777;
+}
+
+[data-theme="light"] .form-control:focus ~ .form-label,
+[data-theme="light"] .form-control:not(:placeholder-shown) ~ .form-label {
+    background: #ffffff;
+}
+
+[data-theme="light"] .back-to-home:hover {
+    color: var(--accent-primary);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 450px;
+    padding: 3rem;
+    border-radius: 24px;
+    text-align: center;
+    animation: authReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    background: var(--bg-glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
+}
+
+@keyframes authReveal {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-logo {
+    display: block;
+    margin: 0 auto 2.5rem;
+    max-height: 75px;
+}
+
+.auth-header {
+    margin-bottom: 2.5rem;
+}
+
+.auth-header h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+}
+
+.auth-header p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.form-control {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+
+
+.form-control:focus {
+    border-color: var(--accent-primary);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 4px rgba(255, 26, 26, 0.1);
+}
+
+.form-label {
+    position: absolute;
+    left: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.form-control:focus ~ .form-label,
+.form-control:not(:placeholder-shown) ~ .form-label {
+    top: -10px;
+    left: 0.8rem;
+    font-size: 0.75rem;
+    color: var(--accent-primary);
+    background: var(--bg-main);
+    padding: 0 0.4rem;
+    border-radius: 4px;
+}
+
+.error-msg {
+    color: #ff4d4d;
+    font-size: 0.75rem;
+    margin-top: 0.4rem;
+    display: none;
+    padding-left: 0.5rem;
+}
+
+.form-group.invalid .form-control {
+    border-color: #ff4d4d;
+    box-shadow: 0 0 0 4px rgba(255, 77, 77, 0.1);
+}
+
+.form-group.invalid .error-msg {
+    display: block;
+}
+
+.auth-footer {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.auth-link {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.auth-link:hover {
+    color: #ff4d4d;
+    text-decoration: underline;
+}
+
+.back-to-home {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.back-to-home:hover {
+    color: var(--text-primary);
+}
