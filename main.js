@@ -739,3 +739,15 @@ window.initFAQ = function () {
         });
     });
 };
+
+// --- Spotlight Scroll Buttons (index2) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const track = document.querySelector('.spotlight-track');
+    const prevBtn = document.getElementById('spotlight-prev');
+    const nextBtn = document.getElementById('spotlight-next');
+    if (track && prevBtn && nextBtn) {
+        const scrollAmt = 330;
+        prevBtn.addEventListener('click', () => track.scrollBy({ left: -scrollAmt, behavior: 'smooth' }));
+        nextBtn.addEventListener('click', () => track.scrollBy({ left:  scrollAmt, behavior: 'smooth' }));
+    }
+});
